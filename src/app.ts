@@ -1,3 +1,4 @@
+import 'reflect-metadata'; // 👈 SIEMPRE PRIMERO
 import express from 'express';
 
 const app = express();
