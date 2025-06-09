@@ -1,0 +1,333 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Product API",
+    "version": "1.0.0",
+    "description": "API for product management"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Products"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "ProductRequestDto": {
+        "type": "object",
+        "required": [
+          "name",
+          "description",
+          "price",
+          "stock"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 100,
+            "example": "Premium Wireless Headphones",
+            "description": "Product name (2-100 characters)"
+          },
+          "description": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 1000,
+            "example": "Noise-cancelling headphones with 30-hour battery life",
+            "description": "Detailed product description (10-1000 characters)"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0.01,
+            "maximum": 1000000,
+            "example": 199.99,
+            "description": "Product price in USD (must be positive)"
+          },
+          "stock": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 50,
+            "description": "Available inventory count"
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true,
+            "example": "Electronics",
+            "description": "Product category (optional)"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "maxLength": 2048,
+            "nullable": true,
+            "example": "https://example.com/products/headphones.jpg",
+            "description": "URL to product image (optional)"
+          }
+        },
+        "example": {
+          "name": "Premium Wireless Headphones",
+          "description": "Industry-leading noise cancellation with 30-hour battery",
+          "price": 199.99,
+          "stock": 50,
+          "category": "Electronics",
+          "imageUrl": "https://example.com/products/headphones.jpg"
+        }
+      },
+      "ProductResponseDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "550e8400-e29b-41d4-a716-446655440000",
+            "description": "Auto-generated unique ID"
+          },
+          "name": {
+            "type": "string",
+            "example": "Premium Wireless Headphones",
+            "minLength": 2,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Noise-cancelling with 30hr battery",
+            "maxLength": 1000
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "minimum": 0,
+            "example": 199.99
+          },
+          "stock": {
+            "type": "integer",
+            "minimum": 0,
+            "example": 50
+          },
+          "category": {
+            "type": "string",
+            "example": "Electronics",
+            "default": "Uncategorized"
+          },
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "example": "https://example.com/product.jpg",
+            "default": "https://via.placeholder.com/150"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-01T00:00:00Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2023-01-02T00:00:00Z"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "price",
+          "stock",
+          "createdAt"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/api/products": {
+      "get": {
+        "summary": "Retrieve all products",
+        "description": "Returns a list of all products in the system.",
+        "tags": [
+          "Products"
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of products",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductResponseDto"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a new product",
+        "description": "Adds a new product to the system.",
+        "tags": [
+          "Products"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The created product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/products/{id}": {
+      "get": {
+        "summary": "Retrieve a single product by ID",
+        "description": "Returns the product with the specified ID.",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the product to retrieve",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The requested product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update an existing product",
+        "description": "Updates the product with the specified ID.",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the product to update",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProductRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The updated product",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductResponseDto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input data"
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a product",
+        "description": "Deletes the product with the specified ID.",
+        "tags": [
+          "Products"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "description": "ID of the product to delete",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Product deleted successfully"
+          },
+          "404": {
+            "description": "Product not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

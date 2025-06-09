@@ -4,15 +4,18 @@
   "description": "RESTful API with product management and sentiment analysis, built with Node.js, Express, TypeScript, and Docker.",
   "main": "dist/app.js",
   "type": "module",
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/app.js",
-    "dev": "nodemon --watch src --exec 'ts-node --esm --loader tsconfig-paths/esm src/app.ts'",
-    "dev:docker": "nodemon --watch src --exec 'node --loader ts-node/esm src/app.ts'",
-    "docker:up": "docker-compose up --build",
-    "docker:down": "docker-compose down",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+"scripts": {
+  "build": "tsc",
+  "start": "node dist/app.js",
+  "dev": "nodemon --watch src --exec 'ts-node --esm --loader tsconfig-paths/esm src/app.ts'",
+  "generate-docs": "swagger-jsdoc -o swagger.json -d src/docs/swagger-definition.yaml src/**/*.ts",
+  "open-api": "npm run generate-docs && npx @redocly/cli preview-docs swagger.json",
+  "build-docs": "npx @redocly/cli build-docs swagger.json -o api-docs.html",
+  "dev:docker": "nodemon --watch src --exec 'node --loader ts-node/esm src/app.ts'",
+  "docker:up": "docker-compose up --build",
+  "docker:down": "docker-compose down",
+  "test": "echo \"Error: no test specified\" && exit 1"
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/juamecos/ai-product-sentiment-api.git"

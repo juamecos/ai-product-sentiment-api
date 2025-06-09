@@ -17,6 +17,6 @@
       "@modules/*": ["src/modules/*"]
     }
   },
-  "include": ["src/**/*.ts"],
+  "include": ["src/**/*.ts", "src/docs/swagger-definition.yaml"],
   "exclude": ["node_modules"]
 }
