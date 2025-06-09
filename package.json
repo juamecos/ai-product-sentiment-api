@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/app.js",
-    "dev": "nodemon --watch src --exec 'node --loader ts-node/esm src/app.ts'",
+    "dev": "nodemon --watch src --exec 'ts-node --esm --loader tsconfig-paths/esm src/app.ts'",
     "dev:docker": "nodemon --watch src --exec 'node --loader ts-node/esm src/app.ts'",
     "docker:up": "docker-compose up --build",
     "docker:down": "docker-compose down",
@@ -32,13 +32,33 @@
   },
   "homepage": "https://github.com/juamecos/ai-product-sentiment-api#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "chalk": "^5.4.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "compression": "^1.8.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "morgan": "^1.10.0",
+    "reflect-metadata": "^0.2.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "@types/node": "^20.14.2",
-    "nodemon": "^3.1.3",
+    "@types/chalk": "^0.4.31",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^4.17.23",
+    "@types/node": "^20.19.0",
+    "@types/uuid": "^10.0.0",
+    "eslint": "^9.28.0",
+    "eslint-config-prettier": "^10.1.5",
+    "eslint-plugin-prettier": "^5.4.1",
+    "nodemon": "^3.1.10",
+    "prettier": "^3.5.3",
     "ts-node": "^10.9.2",
-    "typescript": "^5.4.5"
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.3"
   }
 }
