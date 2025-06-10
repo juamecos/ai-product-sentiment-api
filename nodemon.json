@@ -1,0 +1,6 @@
+{
+  "watch": ["src"],
+  "ext": "ts,json,yaml",
+  "exec": "node --no-warnings --loader ts-node/esm --experimental-specifier-resolution=node src/app.ts",
+  "ignore": ["**/*.spec.ts", "**/*.test.ts"]
+}
