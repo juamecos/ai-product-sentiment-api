@@ -1,12 +1,14 @@
 import 'reflect-metadata'; // Essential for class-transformer and class-validator with decorators
 
 import express from 'express';
+import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import compression from 'compression';
-import chalk from 'chalk'; // For colorful console output
+import chalk from 'chalk'; 
+import mainRouter from './router';
 
 // --- Global Error Handlers (keep these at the very top of your main file) ---
 process.on('uncaughtException', (error) => {
@@ -38,9 +40,11 @@ app.use(express.json()); // To parse JSON in request bodies
 app.use(compression()); // Compresses HTTP responses
 
 // Example Route (ensure your routes are defined here or imported)
-app.get('/', (req, res) => {
-  res.send('AI Product Sentiment API is running!');
-});
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// Mount the main router
+app.use('/', mainRouter);
 
 // You can add more routes and business logic here...
 // For example, import your router modules:

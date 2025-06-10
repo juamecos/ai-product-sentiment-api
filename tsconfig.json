@@ -21,6 +21,9 @@
       "@interfaces/*": ["src/interfaces/*"],
       "@validators/*": ["src/validators/*"],
       "@middlewares/*": ["src/middlewares/*"],
+      "@views/*": ["src/views/*"],
+      "@config/*": ["src/common/config/*"],
+      "@tests/*": ["tests/*"],
 
     }
   },
