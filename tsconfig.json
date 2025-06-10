@@ -20,7 +20,6 @@
       "@common/*": ["src/common/*"],
       "@interfaces/*": ["src/interfaces/*"],
       "@validators/*": ["src/validators/*"],
-      // middlewares
       "@middlewares/*": ["src/middlewares/*"],
 
     }
@@ -31,6 +30,7 @@
     "transpileOnly": true,
     "files": true
   },
+
   "include": ["src/**/*.ts", "src/docs/swagger-definition.yaml"],
   "exclude": ["node_modules"]
 }
